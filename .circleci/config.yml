@@ -1,0 +1,22 @@
+version: 2.1
+jobs:
+  build:
+    machine: true
+    resource_class: large
+    steps:
+      - run: echo "hello, world"
+      - run: cat /etc/os-release
+  ip-ranges:
+    circleci_ip_ranges: true
+    docker:
+      - image: cimg/base:2021.05
+    steps:
+      - checkout
+      - run: echo "building app"
+      - run: echo "testing app"
+      - run: curl -s http://whatismyip.akamai.com
+workflows:
+  build_test_deploy:
+    jobs:
+      - build
+      - ip-ranges
